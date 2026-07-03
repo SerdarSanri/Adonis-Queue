@@ -21,6 +21,7 @@ test.group('QueueManager', (group) => {
       {
         default: 'db',
         logLevel: 'debug',
+        logChild: 'adonis-queue',
         queues: {
           db: () => driver,
         },

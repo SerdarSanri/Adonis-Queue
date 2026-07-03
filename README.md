@@ -294,6 +294,19 @@ export default defineConfig({
       driver: 'never',
     },
   },
+  /**
+   * Optional config parameters
+   */
+
+  // Custom log level - defaults to app config logger.level
+  logLevel: 'debug',
+
+  // Log when no jobs in queue
+  logEmptyQueue: false,
+  
+  // Custom idenfier for logs entries
+  logChild: 'adonis-queue',
+  
 })
 ```
 
