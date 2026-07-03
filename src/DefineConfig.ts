@@ -10,6 +10,8 @@ type GetConfig<T extends any[]> = T extends [] ? {} : T[0]
  * {
  *    default: 'somename',
  *    logLevel: 'info',
+ *    logEmptyQueue: false,
+ *    logChild: 'adonis-queue',
  *    queues: {
  *       somename: {
  *         driver: 'db',
@@ -22,6 +24,8 @@ type GetConfig<T extends any[]> = T extends [] ? {} : T[0]
  * {
  *    default: 'somename',
  *    logLevel: 'info',
+ *    logEmptyQueue: false,
+ *    logChild: 'adonis-queue',
  *    queues: {
  *       somename: () => new DatabaseDrive({
  *          table_name: 'sjdasjk',
@@ -66,8 +70,9 @@ export function defineConfig<
 
   return {
     default: config.default,
-    logLevel: config.logLevel,
-    quiet: config.quiet,
+    logLevel: config.logLevel,   
+    logEmptyQueue: config.logEmptyQueue,
+    logChild: config.logChild,
     queues: managerQueues,
   }
 }
