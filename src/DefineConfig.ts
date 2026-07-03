@@ -67,6 +67,7 @@ export function defineConfig<
   return {
     default: config.default,
     logLevel: config.logLevel,
+    quiet: config.quiet,
     queues: managerQueues,
   }
 }
