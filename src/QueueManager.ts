@@ -18,17 +18,23 @@ export class QueueManager<Mappings extends Record<string, QueueManagerFactory>> 
   protected driver: QueueDriver
 
   constructor(
-    protected config: { default: keyof Mappings; queues: Mappings; logLevel?: string; logEmptyQueue?: boolean; logChild?: string },
+    protected config: {
+      default: keyof Mappings
+      queues: Mappings
+      logLevel?: string
+      logEmptyQueue?: boolean
+      logChild?: string
+    },
     protected logger: LoggerContract,
     protected jobsRoot: string
   ) {
     // Setup default driver
     this.driver = this.use(config.default)
-    
+
     this.logger.level = config.logLevel || logger.level
-    
+
     if (config.logChild) {
-      this.logger.child({name: config.logChild})
+      this.logger.child({ name: config.logChild })
     }
   }
 
@@ -79,7 +85,7 @@ export class QueueManager<Mappings extends Record<string, QueueManagerFactory>> 
 
     // No job queued, continue with life
     if (!job) {
-      this.config.logEmptyQueue && this.logger.debug('No jobs in queue')
+      ;(this.config.logEmptyQueue ?? true) && this.logger.debug('No jobs in queue')
       return
     }
     this.logger.debug({ job }, 'Execution started')

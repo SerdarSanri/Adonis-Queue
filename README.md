@@ -149,7 +149,7 @@ import MailJob from 'App/Jobs/Mails/MailJob'
 import { DateTime } from 'luxon'
 
 // Dispatch job and delay it's execution for one day
-await MailJob.dispatch().delay(DateTime.now().plus({days: 1}))
+await MailJob.dispatch().delay(DateTime.now().plus({ days: 1 }))
 
 // You can also specify date as string
 // This job won't execute before given date
@@ -188,42 +188,42 @@ This driver needs to extend abstract `QueueDriver` to ensure everything works co
 // NeverQueueDriver.ts
 import { QueueDriver } from '@cavai/adonis-queue/build/src/types'
 
-export class NeverQueueDriver extends QueueDriver{
+export class NeverQueueDriver extends QueueDriver {
   /**
    * Do nothing, NeverQueue will never store any jobs
    */
-  public async store () {
-    console.log('Stored nothing');
+  public async store() {
+    console.log('Stored nothing')
   }
 
   /**
    * Just return null, since there is never going to be job to return
    */
-  public async getNext () {
+  public async getNext() {
     return null
   }
 
   /**
    * Always return null, since there are no jobs
    */
-  public async getJob () {
+  public async getJob() {
     return null
   }
 
   /**
    * Keeping on with never having jobs theme
    */
-  public async reSchedule () { }
+  public async reSchedule() {}
 
   /**
    * Do nothing
    */
-  public async markFailed () { }
+  public async markFailed() {}
 
   /**
    * Do nothing
    */
-  public async remove () {}
+  public async remove() {}
 }
 ```
 
@@ -240,11 +240,12 @@ import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import { NeverQueueDriver } from './NeverQueueDriver'
 
 export default class NeverQueueProvider {
-  constructor (protected app: ApplicationContract) {}
+  constructor(protected app: ApplicationContract) {}
 
-  public register () {
+  public register() {
     // Register your own bindings
-    DriversCollection.extend('never', () => { // TS error, solution below
+    DriversCollection.extend('never', () => {
+      // TS error, solution below
       return new NeverQueueDriver()
     })
   }
@@ -252,6 +253,7 @@ export default class NeverQueueProvider {
 ```
 
 Even tho our new queue is working now and we can configure it to be used inside `config/queue.ts`, we are going to get some TypeScript errors, about `never` queue not acceptable queue
+
 > Argument of type '"never"' is not assignable to parameter of type '"database"'.ts(2345)
 
 To fix that, need to create TS typings file: `contracts/queue.ts`
@@ -264,8 +266,8 @@ import { NeverQueueDriver } from '@/providers/NeverQueue/NeverQueueDriver'
 
 declare module '@cavai/adonis-queue' {
   export interface QueueDriverList {
-    // Appending it to drivers list and naming it 
-    'never': () => NeverQueueDriver
+    // Appending it to drivers list and naming it
+    never: () => NeverQueueDriver
   }
 }
 ```
@@ -302,11 +304,11 @@ export default defineConfig({
   logLevel: 'debug',
 
   // Log when no jobs in queue
-  logEmptyQueue: false,
-  
+  logEmptyQueue: true,
+
   // Custom idenfier for logs entries
   logChild: 'adonis-queue',
-  
+
 })
 ```
 
